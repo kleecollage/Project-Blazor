@@ -21,6 +21,19 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.Use(async (context, next) =>
+{
+    await next();
+
+    if (context.Response.StatusCode == 404 &&
+        !context.Request.Path.Value.StartsWith("/_content") &&
+        !context.Request.Path.Value.StartsWith("/_framework"))
+    {
+        context.Response.Redirect("/Error404");
+        return;
+    }
+});
+
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 

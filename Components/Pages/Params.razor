@@ -1,0 +1,15 @@
+@page "/params/{id}/{slug}"
+
+<h1>Parameters</h1>
+<ul>
+  <li>Id: @Id</li>
+  <li>Slug: @Slug</li>
+</ul>
+
+@code {
+  [Parameter]
+  public string Id { get; set; }
+
+  [Parameter]
+  public string Slug { get; set; }
+}
