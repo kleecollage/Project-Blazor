@@ -1,2 +1,102 @@
 ﻿@page "/basics"
-<h1>Razor Basics</h1>
+@using Blazor.Helpers;
+
+<PageTitle>Razor Basics</PageTitle>
+<h1 class="text-center">Razor Basics</h1>
+<h3>Interpolation</h3>
+<p>User <strong>@Name</strong></p>
+<hr />
+
+<h3>Current Date</h3>
+<p>@DateTime.Now</p>
+<p>Last week: @(DateTime.Now - TimeSpan.FromDays(7))</p>
+<hr />
+
+<h3>Block Code Razor</h3>
+@{
+  var name = "John Doe";
+  var n1 = 12;
+  var n2 = 13;
+  var result = n1 + n2;
+}
+<p>@name</p>
+<p>Sum @n1 + @n2 = @result</p>
+<hr />
+
+<h3>Conditionals if, else</h3>
+@{
+  var age = 19;
+}
+@if (age >= 18)
+{
+  <p>You have @age, you can vote</p>
+}
+else
+{
+  <p>You have @age, you are a minor</p>
+}
+<hr />
+
+<h3>Siwtch Conditional</h3>
+@{
+  var number = 19;
+}
+@switch (number)
+{
+  case 1:
+    <p>The value is 1</p>
+    break;
+  case 2:
+    <p>The value is 2</p>
+    break;
+  case 1234:
+    <p>The value is 1234</p>
+    break;
+  default:
+    <p>The value are not in cases: @number</p>
+    break;
+}
+    using Blazor.Helpers;
+<hr />
+
+    using Blazor.Helpers;
+    using Blazor.Helpers;
+    using Blazor.Helpers;
+<h3>While Loop</h3>
+@{ var i = 1; }
+@while (i <= 10)
+{
+  <p>Value: @i</p>
+  i++;
+}
+<hr />
+
+<h3>For Loop</h3>
+@for (var j = 10; j >= 1; j--)
+{
+  <p>Value: @j</p>
+}
+<hr />
+
+<h3>Foreach Loop</h3>
+<ul>
+  @foreach (var item in new[] { "A", "B", "C" })
+  {
+    <li>@item</li>
+  }
+</ul>
+<ul>
+  @foreach (var country in countries)
+  {
+    <li>@country</li>
+  }
+</ul>
+
+<hr />
+<h3>Call from Helpers</h3>
+<p>Static Method: @Utils.StaticMethod("Hello World!")</p>
+
+@code {
+  string Name = "Klee Collage";
+  dynamic countries = new string[] { "USA", "China", "Jaapan", "Korea" };
+}
