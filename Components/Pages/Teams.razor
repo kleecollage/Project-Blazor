@@ -1,18 +1,31 @@
 @page "/teams"
+@inject TokenService _tokenService;
+@inject TeamService _teamService;
 @using Blazor.Service;
 @using Blazor.Dto;
+@using Newtonsoft.Json;
 <PageTitle>Teams</PageTitle>
 
 <h1>Teams </h1>
 <p>Token Generated: @_tokenDto</p>
+<p>Total Records: @length</p>
+<p>@JsonConvert.SerializeObject(_teams)</p>
 
 @code {
   private string _tokenDto { get; set; }
+  private List<TeamDto> _teams { get; set; }
+  private int length { get; set; }
 
   protected override async Task OnInitializedAsync()
   {
-    TokenService _tokenService = new TokenService();
-    TokenDto token = await _tokenService.GetToken();
+    var token = await _tokenService.GetToken();
     _tokenDto = token.Token;
+    _teams = await _teamService.GetTeams(_tokenDto);
+    length = _teams.Count();
+
+    foreach (TeamDto team in _teams)
+    {
+      Console.WriteLine($"ID={team.Id} - TEAM={team.Nombre}");
+    }
   }
 }
