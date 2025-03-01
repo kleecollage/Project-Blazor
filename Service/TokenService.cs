@@ -13,14 +13,18 @@ namespace Blazor.Service;
 
     public async Task<TokenDto> GetToken()
     {
+      var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+      IConfiguration configuration = builder.Build();
+
       var data = new {
-        email = "j.doe3@mail.com",
-        password = "123456"
+        email = configuration["ApiMail"],
+        password = configuration["ApiPassword"]
       };
 
-      var result = await _httpClient.PostAsJsonAsync("http://127.0.0.1:5025/api/access/login", data);
+      var result = await _httpClient.PostAsJsonAsync($"{configuration["ApiUrl"]}access/login", data);
       string responseBody = await result.Content.ReadAsStringAsync();
-      Console.WriteLine($"Response: {JsonConvert.DeserializeObject<TokenDto>(responseBody)}");
 
       return JsonConvert.DeserializeObject<TokenDto>(responseBody);
     }
