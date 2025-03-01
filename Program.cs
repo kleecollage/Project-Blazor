@@ -1,10 +1,15 @@
 using Blazor.Components;
+using Blazor.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Register HttpClient and my Services
+// builder.Services.AddHttpClient();
+// builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
@@ -21,6 +26,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+// Error 404 Page redirection
 app.Use(async (context, next) =>
 {
     await next();
