@@ -11,6 +11,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<TeamService>();
+builder.Services.AddScoped<PlayerService>();
+builder.Services.AddScoped<PlayerPhotoService>();
 
 var app = builder.Build();
 

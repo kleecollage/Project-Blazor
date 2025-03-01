@@ -11,6 +11,28 @@
 <p>Total Records: @length</p>
 <p>@JsonConvert.SerializeObject(_teams)</p>
 
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Slug</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (var i = 0; i < length; i++)
+      {
+        <tr>
+          <td>@_teams[i].Id</td>
+          <td>@_teams[i].Nombre</td>
+          <td>@_teams[i].Slug</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
 @code {
   private string _tokenDto { get; set; }
   private List<TeamDto> _teams { get; set; }

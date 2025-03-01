@@ -1,9 +1,48 @@
 @page "/players-photo/{id}"
+@inject TokenService _tokenService;
+@inject PlayerPhotoService _playerPhotoService;
+@using Blazor.Service;
+@using Blazor.Dto;
+@using Newtonsoft.Json;
 <PageTitle>Players Photo</PageTitle>
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb"><NavLink href="players" title="Players">Players</NavLink></li>
+    <li class="breadcrumb-item active" aria-current="page">Players Photos</li>
+  </ol>
+</nav>
+
 <h1>Players Photo</h1>
+<p>Token Generated: @_tokenDto</p>
+<p>Total Records: @length</p>
+<p>@JsonConvert.SerializeObject(_playersPhoto)</p>
+
+<div class="table-responsive">
+  @for (var i = 0; i < length; i++)
+  {
+    <p>
+      <img src="@_playersPhoto[i].Name" alt="Player Image" width="500">
+    </p>
+  }
+</div>
 
 @code {
   [Parameter]
   public string Id { get; set; }
+  private string _tokenDto { get; set; }
+  private List<PlayersPhotoDto> _playersPhoto { get; set; }
+  private int length { get; set; }
+
+  protected override async Task OnInitializedAsync()
+  {
+    var token = await _tokenService.GetToken();
+    _tokenDto = token.Token;
+    _playersPhoto = await _playerPhotoService.GetPlayersPhoto(_tokenDto, Convert.ToInt32(Id));
+
+    if (_playersPhoto == null) length = 0;
+    else length = _playersPhoto.Count();
+  }
+
+
 }
